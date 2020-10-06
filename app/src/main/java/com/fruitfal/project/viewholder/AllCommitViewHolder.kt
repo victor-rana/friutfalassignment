@@ -8,4 +8,5 @@ class AllCommitViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     val tvAuthorName = v.tvAuthorName
     val tvCommitDate = v.tvCommitDate
     val tvCommitMsg = v.tvCommitMsg
+    val llCard = v.llCard
 }

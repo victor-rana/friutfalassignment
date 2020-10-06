@@ -24,6 +24,10 @@ class AllCommitAdapter(val context: Context?, val allCommitList: List<AllCommits
         holder.tvCommitDate.text = allCommitsModel.commit!!.author!!.date
         holder.tvCommitMsg.text = allCommitsModel.commit!!.message
 
+        holder.llCard.setOnClickListener {
+            commitClickListener.onCommitItemClickListener(allCommitsModel.commit!!)
+        }
+
     }
 
     override fun getItemCount(): Int {

@@ -1,23 +1,15 @@
 package com.fruitfal.project
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.fruitfal.project.adapter.AllCommitAdapter
-import com.fruitfal.project.listener.CommitClickListener
+import com.fruitfal.project.fragment.CommitFragment
+import com.fruitfal.project.fragment.DetailsFragment
 import com.fruitfal.project.model.AllCommitsModel
 import com.fruitfal.project.viewmodel.AllCommitViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),  CommitClickListener{
+class MainActivity : AppCompatActivity(){
 
-    var recyclerView: RecyclerView? = null
-    var allCommitAdapter: AllCommitAdapter? = null
-    var allCommitList: ArrayList<AllCommitsModel>? = ArrayList()
 
     var allCommitViewModel: AllCommitViewModel? = null
 
@@ -25,36 +17,42 @@ class MainActivity : AppCompatActivity(),  CommitClickListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.rvMain)
-
-        setRecyclerView()
-
         allCommitViewModel = ViewModelProvider(this).get(AllCommitViewModel::class.java)
 
-        allCommitViewModel!!.loadData()
-
-        allCommitViewModel!!.allCommitLiveData.observe(this, Observer { t ->
-            allCommitList!!.addAll(t)
-            allCommitAdapter!!.notifyDataSetChanged()
-        })
+        loadFragment()
 
     }
 
-    fun setRecyclerView(){
-        allCommitAdapter = AllCommitAdapter(this, allCommitList!!,this)
-        recyclerView.apply {
-            recyclerView?.layoutManager = LinearLayoutManager(this@MainActivity)
-            recyclerView?.adapter = allCommitAdapter
-        }
+    fun loadFragment() {
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentMain, CommitFragment())
+        ft.commit()
     }
 
-    override fun onCommitItemClickListener(item: AllCommitsModel.Commit) {
-
+    fun onLoadDetailsFragment(item: AllCommitsModel.Commit){
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentMain, DetailsFragment(item))
+        ft.addToBackStack(DetailsFragment().tag)
+        ft.commit()
     }
 
     override fun onDestroy() {
         allCommitViewModel?.reset()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+
+
     }
 
 }

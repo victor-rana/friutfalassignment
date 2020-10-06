@@ -1,4 +1,4 @@
-package fund.stock.share.market.money.stakeholder.finance.economy.live.data
+package com.fruitfal.project.data
 
 import com.fruitfal.project.model.AllCommitsModel
 import io.reactivex.Observable

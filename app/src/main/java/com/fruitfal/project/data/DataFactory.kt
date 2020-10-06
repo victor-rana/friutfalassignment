@@ -1,5 +1,6 @@
-package fund.stock.share.market.money.stakeholder.finance.economy.live.data
 
+
+import com.fruitfal.project.data.DataService
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
